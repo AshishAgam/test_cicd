@@ -51,7 +51,7 @@ jobs:
 
       - name: Copy files to server
         run: |
-          scp -o StrictHostKeyChecking=no -r ./build/* ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }}:/var/www/ci-cd_demo
+          scp -o StrictHostKeyChecking=no -r build/ ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }}:/var/www/ci-cd_demo
 
       - name: Restart web server
         run: |
