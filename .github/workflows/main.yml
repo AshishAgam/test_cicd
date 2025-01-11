@@ -44,8 +44,15 @@ jobs:
           name: production-files
           path: ./build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          github_token: ${{ secrets.TOKEN}}
-          publish_dir: ./build
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Copy files to server
+        run: |
+          scp -o StrictHostKeyChecking=no -r ./build/* rajaswebappadmin@98.70.33.236:/var/www/ci-cd_demo
+
+      - name: Restart web server
+        run: |
+          ssh -o StrictHostKeyChecking=no rajaswebappadmin@98.70.33.236"sudo systemctl restart nginx"
