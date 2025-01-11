@@ -47,12 +47,12 @@ jobs:
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-private-key: ${{ secrets.DEPLOY_KEY}}
 
       - name: Copy files to server
         run: |
-          scp -o StrictHostKeyChecking=no -r ./build/* rajaswebappadmin@98.70.33.236:/var/www/ci-cd_demo
+          scp -o StrictHostKeyChecking=no -r ./build/* ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }}:/var/www/ci-cd_demo
 
       - name: Restart web server
         run: |
-          ssh -o StrictHostKeyChecking=no rajaswebappadmin@98.70.33.236"sudo systemctl restart nginx"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.SERVER_IP }} "sudo systemctl restart nginx"
